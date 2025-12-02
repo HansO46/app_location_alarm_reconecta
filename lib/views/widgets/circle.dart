@@ -1,3 +1,4 @@
+import 'package:app_location_alarm_reconecta/data/constants.dart';
 import 'package:flutter/material.dart';
 
 class Circle extends StatefulWidget {
@@ -46,15 +47,14 @@ class _CircleState extends State<Circle> with TickerProviderStateMixin {
           child: Container(
             width: 270,
             height: 270,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Color.fromARGB(255, 81, 197, 210)),
+            decoration: BoxDecoration(shape: BoxShape.circle, color: KColors.mainColor),
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('X km to go'),
-                  Text('Left'),
+                  Text('X km to go', style: KTextStyles.textOnCircleStyle),
+                  Text('Left', style: KTextStyles.textOnCircleStyle),
                 ],
               ),
             ),

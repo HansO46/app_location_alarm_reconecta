@@ -44,7 +44,7 @@ class WelcomePage extends StatelessWidget {
                       fontFamily: 'Roboto',
                       fontSize: 16,
                       letterSpacing: 4,
-                      color: Color(0xff56b3bd)),
+                      color: KColors.mainColor),
                 ),
               ),
             ],

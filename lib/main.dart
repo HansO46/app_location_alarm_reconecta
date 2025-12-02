@@ -1,30 +1,17 @@
 import 'package:app_location_alarm_reconecta/data/constants.dart';
 import 'package:app_location_alarm_reconecta/data/notifiers.dart';
-import 'package:app_location_alarm_reconecta/views/pages/example.dart';
-import 'package:app_location_alarm_reconecta/views/pages/example2.dart';
+import 'package:app_location_alarm_reconecta/views/pages/alarms_page.dart.dart';
+import 'package:app_location_alarm_reconecta/views/pages/destination_page.dart';
 import 'package:app_location_alarm_reconecta/views/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
-import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   // Inicializar Flutter binding primero
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Según la guía de Mapbox: obtener el token desde --dart-define
-  String ACCESS_TOKEN = String.fromEnvironment("ACCESS_TOKEN");
-
-  // Si viene de --dart-define (desarrollo), usarlo
-  // Si está vacío, Mapbox leerá automáticamente desde strings.xml (Android) o Info.plist (iOS)
-  if (ACCESS_TOKEN.isNotEmpty) {
-    print(' Token encontrado desde --dart-define');
-    MapboxOptions.setAccessToken(ACCESS_TOKEN);
-    print('Token configurado desde --dart-define: ${ACCESS_TOKEN.substring(0, 20)}...');
-  } else {
-    print(' ACCESS_TOKEN está vacío desde --dart-define');
-    print('Mapbox usará el token desde strings.xml (Android) o Info.plist (iOS)');
-    // Mapbox leerá automáticamente desde los archivos nativos, no necesitamos configurarlo aquí
-  }
+  // MapLibre NO requiere tokens/keys - es completamente open source
+  // No necesitamos configurar ningún ACCESS_TOKEN
 
   await initThemeMode();
 
@@ -76,7 +63,7 @@ class _MyAppState extends State<MyApp> {
             // This works for code too, not just values: Most code changes can be
             // tested with just a hot reload.
             colorScheme: ColorScheme.fromSeed(
-              seedColor: Color.fromARGB(255, 81, 197, 210),
+              seedColor: KColors.mainColor,
               brightness: isDarkModeNotifier.value ? Brightness.dark : Brightness.light,
             ),
           ),
@@ -116,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      body: WelcomePage(), // Temporalmente para probar example2
+      body: AlarmsPage(), // Temporalmente para probar example2
       // body: WelcomePage(), // Cambia esto cuando termines de probar
     );
   }

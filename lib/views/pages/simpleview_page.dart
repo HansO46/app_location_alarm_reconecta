@@ -1,8 +1,6 @@
 import 'package:app_location_alarm_reconecta/data/constants.dart';
-import 'package:app_location_alarm_reconecta/views/pages/home.dart';
-import 'package:app_location_alarm_reconecta/views/pages/settings.dart';
+import 'package:app_location_alarm_reconecta/views/pages/settings_page.dart';
 import 'package:app_location_alarm_reconecta/views/widgets/circle.dart';
-import 'package:app_location_alarm_reconecta/views/widgets/swipe_down.dart';
 import 'package:flutter/material.dart';
 
 class SimpleviewPage extends StatelessWidget {
@@ -12,7 +10,7 @@ class SimpleviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
               onPressed: () {
@@ -23,8 +21,8 @@ class SimpleviewPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text('On way to the destination', style: KTextStyles.buttonTextStyle),
-          SizedBox(height: 120),
+          Text('On way to the destination', style: KTextStyles.italicSubtitleStyle),
+          SizedBox(height: 100),
           Center(child: Circle()),
           SizedBox(height: 100),
           Row(
@@ -54,7 +52,7 @@ class SimpleviewPage extends StatelessWidget {
 
   Route _createRoute() {
     return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => const Settings(),
+      pageBuilder: (context, animation, secondaryAnimation) => const SettingsPage(),
       transitionDuration: const Duration(milliseconds: 1000),
       reverseTransitionDuration: const Duration(microseconds: 1000),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
