@@ -75,9 +75,8 @@ class KTextStyles {
         wordSpacing: 2,
       );
   static TextStyle get alarmDetailsTextStyle => TextStyle(
-        fontSize: 10,
+        fontSize: 14,
         fontWeight: FontWeight.bold,
-        fontFamily: 'Roboto',
         letterSpacing: 1,
         wordSpacing: 1.5,
       );
@@ -105,4 +104,12 @@ class KConstants {
 
   // Clave para guardar/cargar alarmas en SharedPreferences
   static const String alarmsKey = 'alarms';
+
+  // Clave para guardar/cargar unidad preferida en SharedPreferences
+  static const String preferredUnitKey = 'preferredUnit';
+
+  // Clave para saber si el usuario ya vio la pantalla de bienvenida
+  static const String hasSeenWelcomeKey = 'hasSeenWelcome';
+
+  static bool get hasSeenWelcome => true;
 }

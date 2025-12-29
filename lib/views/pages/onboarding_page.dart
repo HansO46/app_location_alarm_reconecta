@@ -1,11 +1,13 @@
 import 'package:app_location_alarm_reconecta/data/constants.dart';
 import 'package:app_location_alarm_reconecta/views/pages/category_selection_page.dart';
+import 'package:app_location_alarm_reconecta/views/pages/alarms_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({super.key});
+  final bool isFirstTime;
+  const OnboardingPage({super.key, this.isFirstTime = true});
 
   @override
   State<OnboardingPage> createState() => _OnboardingPageState();
@@ -34,30 +36,52 @@ class _OnboardingPageState extends State<OnboardingPage> {
             height: 150,
           ),
           FilledButton(
-              onPressed: () async {
-                final status = await Permission.locationWhenInUse.request();
+            onPressed: () async {
+              // 1. Pedir permiso de ubicación
+              final locationStatus = await Permission.locationWhenInUse.request();
 
-                if (status.isGranted) {
-                  // Solo navegar si el permiso fue otorgado
-                  Navigator.push(
+              if (locationStatus.isGranted) {
+                // 2. Pedir permiso de notificaciones (Android 13+)
+                if (await Permission.notification.isDenied) {
+                  await Permission.notification.request();
+                }
+
+                // 3. Navegar según si es la primera vez o recuperación de permisos
+                if (widget.isFirstTime) {
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (context) => CategorySelectionPage()),
                   );
                 } else {
-                  // Mostrar mensaje si fue denegado
-                  // o pedir que vaya a configuración
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AlarmsPage()),
+                  );
                 }
-              },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), // Bordes ligeramente redondeados
-                ),
-                minimumSize: Size(300, 50), // Ancho y alto iguales
+              } else {
+                // Mostrar mensaje si fue denegado
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Necesitamos tu ubicación para avisarte cuando llegues.'),
+                    action: SnackBarAction(
+                      label: 'Configuración',
+                      onPressed: () => openAppSettings(),
+                    ),
+                  ),
+                );
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8), // Bordes ligeramente redondeados
               ),
-              child: Text(
-                'Permitir acceso',
-                style: KTextStyles.buttonTextStyle,
-              ))
+              minimumSize: Size(300, 50), // Ancho y alto iguales
+            ),
+            child: Text(
+              'Permitir acceso',
+              style: KTextStyles.buttonTextStyle,
+            ),
+          )
         ],
       ),
     );

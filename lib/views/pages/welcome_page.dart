@@ -1,6 +1,7 @@
 import 'package:app_location_alarm_reconecta/data/constants.dart';
 import 'package:app_location_alarm_reconecta/views/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -8,12 +9,17 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
+      onTap: () async {
+        // Marcar que ya vimos la bienvenida
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool(KConstants.hasSeenWelcomeKey, true);
+
+        Navigator.pushReplacement(
+          // Use pushReplacement para que no pueda volver atrás
           context,
           MaterialPageRoute(
             builder: (context) {
-              return OnboardingPage();
+              return OnboardingPage(isFirstTime: true);
             },
           ),
         );
